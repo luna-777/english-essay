@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Cost of a Better Life</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #C0292A;
+    --dark-red: #8B1A1B;
+    --gold: #D4A843;
+    --pale-gold: #F5E6C8;
+    --ink: #1A1008;
+    --paper: #FAF6EE;
+    --warm-gray: #8A7D6B;
+    --light-gray: #E8E0D4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.5;
+  }
+
+  /* ───────── DECORATIVE SVG PATTERNS ───────── */
+  .cloud-pattern {
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+  }
+
+  /* ───────── HERO ───────── */
+  .hero {
+    position: relative;
+    background: var(--red);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 60px 20px;
+  }
+
+  /* Radial lattice background */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 80%, rgba(212,168,67,0.18) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(212,168,67,0.12) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(212,168,67,0.12)' stroke-width='0.5'%3E%3Crect x='5' y='5' width='50' height='50' rx='2'/%3E%3Crect x='15' y='15' width='30' height='30' rx='2'/%3E%3Cline x1='30' y1='5' x2='30' y2='55'/%3E%3Cline x1='5' y1='30' x2='55' y2='30'/%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  /* Lantern left */
+  .lantern {
+    position: absolute;
+    top: -10px;
+    width: 60px;
+    animation: swayLantern 4s ease-in-out infinite;
+    transform-origin: top center;
+  }
+  .lantern-left { left: 8%; animation-delay: 0s; }
+  .lantern-right { right: 8%; animation-delay: 2s; }
+
+  @keyframes swayLantern {
+    0%, 100% { transform: rotate(-4deg); }
+    50% { transform: rotate(4deg); }
+  }
+
+  .hero-kicker {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 2;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 900;
+    line-height: 1.0;
+    color: #FFF8EC;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    animation: fadeUp 0.9s ease 0.1s both;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+    display: block;
+  }
+
+  .hero-subtitle {
+    font-family: 'Source Serif 4', serif;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-style: italic;
+    color: rgba(255,248,236,0.75);
+    margin-top: 24px;
+    text-align: center;
+    max-width: 560px;
+    line-height: 1.6;
+    position: relative;
+    z-index: 2;
+    animation: fadeUp 1s ease 0.2s both;
+  }
+
+  .hero-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 32px 0;
+    position: relative;
+    z-index: 2;
+    animation: fadeUp 1.1s ease 0.3s both;
+  }
+  .hero-divider span {
+    width: 60px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.6;
+  }
+  .hero-divider svg { opacity: 0.9; }
+
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    color: rgba(255,248,236,0.6);
+    position: relative;
+    z-index: 2;
+    animation: fadeUp 1.2s ease 0.4s both;
+  }
+  .hero-meta strong { color: var(--gold); font-weight: 700; }
+  .hero-meta .dot { color: var(--gold); }
+
+  /* Decorative Chinese cloud scrolls at bottom */
+  .hero-clouds {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+  }
+
+  /* ───────── ARTICLE BODY ───────── */
+  .article-wrapper {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Drop cap section */
+  .lead-section {
+    margin-top: 64px;
+    position: relative;
+  }
+
+  .lead-section::before {
+    content: '';
+    position: absolute;
+    left: -40px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--red), transparent);
+  }
+
+  .lead-paragraph {
+    font-size: 1.25rem;
+    line-height: 1.85;
+    color: var(--ink);
+    font-weight: 300;
+  }
+
+  .lead-paragraph::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 5.5rem;
+    font-weight: 900;
+    color: var(--red);
+    float: left;
+    line-height: 0.75;
+    margin-right: 12px;
+    margin-top: 8px;
+  }
+
+  /* Body paragraphs */
+  .body-p {
+    font-size: 1.1rem;
+    line-height: 1.9;
+    color: #2A1F12;
+    margin-top: 28px;
+    font-weight: 300;
+  }
+
+  /* ───────── SECTION HEADERS ───────── */
+  .section-marker {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 56px 0 32px;
+  }
+  .section-marker::before,
+  .section-marker::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--light-gray);
+  }
+  .section-marker svg { flex-shrink: 0; }
+
+  /* ───────── PULL QUOTES ───────── */
+  .pull-quote {
+    position: relative;
+    margin: 56px -40px;
+    padding: 40px 48px 40px 56px;
+    background: var(--red);
+    border-left: 6px solid var(--gold);
+    overflow: hidden;
+  }
+
+  .pull-quote::before {
+    content: '❝';
+    position: absolute;
+    top: -20px;
+    left: 16px;
+    font-size: 8rem;
+    color: rgba(212,168,67,0.2);
+    font-family: 'Playfair Display', serif;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .pull-quote::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='1' fill='rgba(212,168,67,0.08)'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .pull-quote-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.55rem;
+    font-style: italic;
+    font-weight: 700;
+    line-height: 1.45;
+    color: #FFF8EC;
+    position: relative;
+    z-index: 1;
+  }
+
+  .pull-quote-attr {
+    margin-top: 20px;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ───────── INSET ILLUSTRATION ───────── */
+  .inset-art {
+    margin: 48px -20px;
+    position: relative;
+  }
+
+  .inset-art svg {
+    width: 100%;
+    display: block;
+  }
+
+  .inset-caption {
+    text-align: center;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    color: var(--warm-gray);
+    margin-top: 12px;
+    font-style: italic;
+  }
+
+  /* ───────── BOOK CALLOUT ───────── */
+  .book-callout {
+    margin: 52px 0;
+    padding: 32px;
+    border: 1px solid var(--light-gray);
+    border-top: 4px solid var(--red);
+    background: #FDF9F3;
+    position: relative;
+  }
+
+  .book-callout-label {
+    position: absolute;
+    top: -13px;
+    left: 24px;
+    background: var(--red);
+    color: #FFF8EC;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 3px 12px;
+  }
+
+  .book-callout p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #2A1F12;
+    font-weight: 300;
+  }
+
+  /* ───────── STAT BLOCKS ───────── */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--light-gray);
+    margin: 52px -20px;
+    border: 1px solid var(--light-gray);
+  }
+
+  .stat-cell {
+    background: var(--paper);
+    padding: 28px 24px;
+    text-align: center;
+  }
+
+  .stat-chinese {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--red);
+    display: block;
+    line-height: 1;
+  }
+
+  .stat-english {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.78rem;
+    font-style: italic;
+    color: var(--warm-gray);
+    margin-top: 6px;
+    display: block;
+    letter-spacing: 0.05em;
+  }
+
+  /* ───────── CHAPTER HEADING ───────── */
+  .chapter-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.95rem;
+    font-weight: 900;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-top: 64px;
+    margin-bottom: 8px;
+    position: relative;
+    padding-left: 20px;
+  }
+
+  .chapter-heading::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 4px;
+    bottom: 4px;
+    width: 5px;
+    background: var(--red);
+    border-radius: 2px;
+  }
+
+  /* ───────── FOOTER ───────── */
+  .article-footer {
+    margin-top: 96px;
+    background: var(--ink);
+    color: rgba(255,248,236,0.7);
+    padding: 60px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .article-footer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(212,168,67,0.07)' stroke-width='0.5'%3E%3Crect x='5' y='5' width='50' height='50' rx='2'/%3E%3Crect x='15' y='15' width='30' height='30' rx='2'/%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .footer-chinese {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+    opacity: 0.8;
+  }
+
+  .footer-text {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.9rem;
+    font-style: italic;
+    line-height: 1.7;
+    max-width: 480px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-divider {
+    width: 60px;
+    height: 1px;
+    background: var(--gold);
+    margin: 24px auto;
+    opacity: 0.4;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ───────── SCROLLING RED TICKER ───────── */
+  .ticker-wrap {
+    background: var(--dark-red);
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 10px 0;
+    border-top: 1px solid var(--gold);
+    border-bottom: 1px solid var(--gold);
+    margin: 0;
+  }
+
+  .ticker-inner {
+    display: inline-block;
+    animation: ticker 28s linear infinite;
+  }
+
+  .ticker-item {
+    display: inline-block;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    padding: 0 40px;
+  }
+
+  .ticker-item::after {
+    content: '◆';
+    margin-left: 40px;
+    opacity: 0.5;
+  }
+
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ───────── SECTION BREAK (wave) ───────── */
+  .wave-break {
+    margin: 64px 0;
+    text-align: center;
+    opacity: 0.25;
+  }
+
+  /* ───────── ANIMATIONS ───────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ───────── RESPONSIVE ───────── */
+  @media (max-width: 640px) {
+    .pull-quote { margin: 40px -24px; padding: 32px 28px; }
+    .stat-row { grid-template-columns: 1fr; margin: 40px -24px; }
+    .lead-section::before { display: none; }
+    .lantern { display: none; }
+    .hero-title { font-size: 2.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ TICKER ═══════════ -->
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <span class="ticker-item">OPINION</span>
+    <span class="ticker-item">PERSONAL ESSAY</span>
+    <span class="ticker-item">IMMIGRATION</span>
+    <span class="ticker-item">IDENTITY</span>
+    <span class="ticker-item">CULTURE</span>
+    <span class="ticker-item">THE AMERICAN DREAM</span>
+    <span class="ticker-item">OPINION</span>
+    <span class="ticker-item">PERSONAL ESSAY</span>
+    <span class="ticker-item">IMMIGRATION</span>
+    <span class="ticker-item">IDENTITY</span>
+    <span class="ticker-item">CULTURE</span>
+    <span class="ticker-item">THE AMERICAN DREAM</span>
+  </div>
+</div>
+
+<section class="hero">
+
+  <!-- Lanterns -->
+  <svg class="lantern lantern-left" viewBox="0 0 60 140" xmlns="http://www.w3.org/2000/svg">
+    <line x1="30" y1="0" x2="30" y2="18" stroke="#D4A843" stroke-width="1.5"/>
+    <rect x="14" y="18" width="32" height="6" rx="2" fill="#D4A843"/>
+    <ellipse cx="30" cy="75" rx="22" ry="52" fill="#C0292A"/>
+    <ellipse cx="30" cy="75" rx="22" ry="52" fill="none" stroke="#D4A843" stroke-width="1.5"/>
+    <line x1="8" y1="50" x2="52" y2="50" stroke="#D4A843" stroke-width="0.8" opacity="0.5"/>
+    <line x1="8" y1="75" x2="52" y2="75" stroke="#D4A843" stroke-width="0.8" opacity="0.5"/>
+    <line x1="8" y1="100" x2="52" y2="100" stroke="#D4A843" stroke-width="0.8" opacity="0.5"/>
+    <line x1="30" y1="16" x2="30" y2="136" stroke="none"/>
+    <rect x="14" y="124" width="32" height="5" rx="2" fill="#D4A843"/>
+    <line x1="24" y1="129" x2="24" y2="140" stroke="#D4A843" stroke-width="1.5"/>
+    <line x1="30" y1="129" x2="30" y2="140" stroke="#D4A843" stroke-width="1.5"/>
+    <line x1="36" y1="129" x2="36" y2="140" stroke="#D4A843" stroke-width="1.5"/>
+    <ellipse cx="30" cy="75" rx="14" ry="40" fill="rgba(255,220,120,0.15)"/>
+    <text x="30" y="82" font-family="Noto Serif SC, serif" font-size="18" font-weight="900" fill="#D4A843" text-anchor="middle" opacity="0.8">福</text>
+  </svg>
+
+  <svg class="lantern lantern-right" viewBox="0 0 60 140" xmlns="http://www.w3.org/2000/svg">
+    <line x1="30" y1="0" x2="30" y2="18" stroke="#D4A843" stroke-width="1.5"/>
+    <rect x="14" y="18" width="32" height="6" rx="2" fill="#D4A843"/>
+    <ellipse cx="30" cy="75" rx="22" ry="52" fill="#8B1A1B"/>
+    <ellipse cx="30" cy="75" rx="22" ry="52" fill="none" stroke="#D4A843" stroke-width="1.5"/>
+    <line x1="8" y1="50" x2="52" y2="50" stroke="#D4A843" stroke-width="0.8" opacity="0.5"/>
+    <line x1="8" y1="75" x2="52" y2="75" stroke="#D4A843" stroke-width="0.8" opacity="0.5"/>
+    <line x1="8" y1="100" x2="52" y2="100" stroke="#D4A843" stroke-width="0.8" opacity="0.5"/>
+    <rect x="14" y="124" width="32" height="5" rx="2" fill="#D4A843"/>
+    <line x1="24" y1="129" x2="24" y2="140" stroke="#D4A843" stroke-width="1.5"/>
+    <line x1="30" y1="129" x2="30" y2="140" stroke="#D4A843" stroke-width="1.5"/>
+    <line x1="36" y1="129" x2="36" y2="140" stroke="#D4A843" stroke-width="1.5"/>
+    <ellipse cx="30" cy="75" rx="14" ry="40" fill="rgba(255,220,120,0.15)"/>
+    <text x="30" y="82" font-family="Noto Serif SC, serif" font-size="18" font-weight="900" fill="#D4A843" text-anchor="middle" opacity="0.8">梦</text>
+  </svg>
+
+  <p class="hero-kicker">Personal Essay · Immigration · Identity</p>
+
+  <h1 class="hero-title">
+    The Cost of<br>
+    <em>a Better Life</em>
+  </h1>
+
+  <p class="hero-subtitle">On what the American Dream quietly takes from the families brave enough to chase it</p>
+
+  <div class="hero-divider">
+    <span></span>
+    <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2 L14 8 L20 8 L15 12 L17 18 L12 14 L7 18 L9 12 L4 8 L10 8 Z" fill="#D4A843" opacity="0.9"/>
+    </svg>
+    <span></span>
+  </div>
+
+
+
+  <svg class="hero-clouds" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,80 L0,40 Q30,20 60,40 Q90,60 120,40 Q150,20 180,40 Q210,60 240,40 Q270,20 300,40 Q330,60 360,40 Q390,20 420,40 Q450,60 480,40 Q510,20 540,40 Q570,60 600,40 Q630,20 660,40 Q690,60 720,40 Q750,20 780,40 Q810,60 840,40 Q870,20 900,40 Q930,60 960,40 Q990,20 1020,40 Q1050,60 1080,40 Q1110,20 1140,40 Q1170,60 1200,40 Q1230,20 1260,40 Q1290,60 1320,40 Q1350,20 1380,40 Q1410,60 1440,40 L1440,80 Z" fill="#FAF6EE"/>
+  </svg>
+</section>
+
+<!-- ═══════════ ARTICLE ═══════════ -->
+<main class="article-wrapper">
+
+  <!-- LEAD -->
+  <div class="lead-section fade-in">
+    <p class="lead-paragraph">When I was three years old, my parents packed everything they had into whatever could fit and left Shanghai, China. I don't have any particularly vivid memories of the airport nor the plane. I do remember—however—the version of the story I've been told my whole life, repeated at dinner tables and in moments when my parents believed I was old enough to understand: <em>We came for a better life.</em></p>
+  </div>
+
+  <p class="body-p fade-in">I used to merely take that answer at face value. "A better life" sounded straightforward, like a mathematical equation: simply give up one thing to gain another. But as I got older and older, I began to realize what the phrase was leaving out. What exactly did they give up? And is the life they got actually better — or just different?</p>
+
+  <!-- Three Chinese characters: place, self, memory -->
+  <div class="stat-row fade-in">
+    <div class="stat-cell">
+      <span class="stat-chinese">地方</span>
+      <span class="stat-english">A place left behind</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-chinese">自我</span>
+      <span class="stat-english">Myself</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-chinese">记忆</span>
+      <span class="stat-english">A memory never made</span>
+    </div>
+  </div>
+
+  <p class="body-p fade-in">My brother was born in San Francisco in 2015, two years after our arrival. America is the only home he has ever known. He lacks the memory that I didn't have: the blank space where a childhood in the neighborhoods of Shanghai might have lived. Moving to America at age three, I existed in a strange in-between — old enough that somewhere inside of me remained the faint ghost of a different life, yet young enough that I cannot remember that life anymore. Although my parents know exactly what they left behind, they just tend not to talk about it.</p>
+
+  <!-- THESIS!!! -->
+  <div class="pull-quote fade-in">
+    <p class="pull-quote-text">The American Dream does not advertise its true cost — and in chasing it, immigrant families are forced to leave behind not just a place, but a self.</p>
+    <p class="pull-quote-attr">The Author's Thesis</p>
+  </div>
+
+  <!-- CHAPTER 1 -->
+  <h2 class="chapter-heading fade-in">The Woman Who Never Made It Across</h2>
+
+  <div class="book-callout fade-in">
+    <span class="book-callout-label">Referenced Work</span>
+    <p>Amy Tan's <em>The Joy Luck Club</em> (1989) — a novel about the weight passed down from mother to daughter across the ocean of immigration. Things that get lost in translation. And things that are lost on purpose.</p>
+  </div>
+
+  <p class="body-p fade-in">In a devastating moment in the novel, Jing-mei Woo sits across from her mother Suyuan's oldest friend after Suyuan has died, and she realizes she cannot answer the simplest question of who her mother truly was. Jing-mei's inability is not solely grief — it reveals that Suyuan had been so consumed by the act of surviving and building a life in America that the person she was before never made it across the ocean with her.</p>
+
+  <p class="body-p fade-in">The woman her daughter faced across the dinner table was already a "translated" version, reshaped by a country that didn't know her original language, her losses, or her original self. Through this, Tan demonstrates that sacrifice is not always material. In addition to leaving China, Suyuan also left a version of herself that her own daughter never met.</p>
+
+  <!-- migrating cranes over water -->
+  <div class="inset-art fade-in">
+    <svg viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#FDF9F3"/>
+          <stop offset="100%" stop-color="#F0E8D8"/>
+        </linearGradient>
+        <linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#D4A843" stop-opacity="0.15"/>
+          <stop offset="100%" stop-color="#C0292A" stop-opacity="0.08"/>
+        </linearGradient>
+      </defs>
+      <rect width="760" height="280" fill="url(#skyGrad)"/>
+      <!-- Mountains silhouette -->
+      <path d="M0,200 Q80,120 160,180 Q240,240 320,140 Q380,80 440,160 Q520,240 600,160 Q680,80 760,180 L760,280 L0,280 Z" fill="rgba(192,41,42,0.08)"/>
+      <path d="M0,230 Q100,180 200,210 Q300,240 400,190 Q500,140 600,200 Q680,240 760,210 L760,280 L0,280 Z" fill="rgba(192,41,42,0.06)"/>
+      <!-- Water ripples -->
+      <rect x="0" y="230" width="760" height="50" fill="url(#waterGrad)"/>
+      <ellipse cx="200" cy="245" rx="80" ry="5" fill="rgba(212,168,67,0.1)"/>
+      <ellipse cx="500" cy="255" rx="100" ry="5" fill="rgba(212,168,67,0.1)"/>
+      <!-- Cranes in flight -->
+      <!-- Crane 1 -->
+      <g transform="translate(120,90) scale(1.3)">
+        <path d="M0,0 Q-15,-8 -30,-5 Q-20,-2 0,0" fill="white" stroke="#C0292A" stroke-width="0.5"/>
+        <path d="M0,0 Q15,-8 30,-5 Q20,-2 0,0" fill="white" stroke="#C0292A" stroke-width="0.5"/>
+        <ellipse cx="0" cy="3" rx="8" ry="4" fill="white" stroke="#8A7D6B" stroke-width="0.4"/>
+        <path d="M8,4 Q16,8 20,5" fill="none" stroke="#8A7D6B" stroke-width="1"/>
+        <circle cx="-7" cy="1" r="1.5" fill="#C0292A"/>
+      </g>
+      <!-- Crane 2 -->
+      <g transform="translate(280,65) scale(1.1)">
+        <path d="M0,0 Q-18,-10 -35,-6" fill="white" stroke="#C0292A" stroke-width="0.5"/>
+        <path d="M0,0 Q18,-10 35,-6" fill="white" stroke="#C0292A" stroke-width="0.5"/>
+        <ellipse cx="0" cy="3" rx="8" ry="4" fill="white" stroke="#8A7D6B" stroke-width="0.4"/>
+        <path d="M8,4 Q16,8 20,5" fill="none" stroke="#8A7D6B" stroke-width="1"/>
+        <circle cx="-7" cy="1" r="1.5" fill="#C0292A"/>
+      </g>
+      <!-- Crane 3 (smaller, farther) -->
+      <g transform="translate(460,50) scale(0.8)">
+        <path d="M0,0 Q-15,-8 -28,-5" fill="white" stroke="#C0292A" stroke-width="0.5"/>
+        <path d="M0,0 Q15,-8 28,-5" fill="white" stroke="#C0292A" stroke-width="0.5"/>
+        <ellipse cx="0" cy="3" rx="7" ry="3.5" fill="white" stroke="#8A7D6B" stroke-width="0.4"/>
+        <path d="M7,4 Q14,7 17,4" fill="none" stroke="#8A7D6B" stroke-width="0.8"/>
+        <circle cx="-6" cy="1" r="1.2" fill="#C0292A"/>
+      </g>
+      <!-- Crane 4 (smallest, distant) -->
+      <g transform="translate(600,40) scale(0.6)">
+        <path d="M0,0 Q-12,-6 -22,-4" fill="white" stroke="#C0292A" stroke-width="0.5"/>
+        <path d="M0,0 Q12,-6 22,-4" fill="white" stroke="#C0292A" stroke-width="0.5"/>
+        <ellipse cx="0" cy="3" rx="6" ry="3" fill="white" stroke="#8A7D6B" stroke-width="0.4"/>
+        <circle cx="-5" cy="1" r="1" fill="#C0292A"/>
+      </g>
+      <!-- Border decoration -->
+      <rect x="1" y="1" width="758" height="278" fill="none" stroke="rgba(212,168,67,0.3)" stroke-width="1"/>
+      <rect x="8" y="8" width="744" height="264" fill="none" stroke="rgba(212,168,67,0.15)" stroke-width="0.5"/>
+    </svg>
+    <p class="inset-caption">裂隙之间 &nbsp;·&nbsp; Living in the gap between who we were and who we became</p>
+  </div>
+
+  <p class="body-p fade-in">The ambitions Suyuan poured into Jing-mei — the relentless hope that her daughter could be exceptional — were more than pressure. They were a way of keeping something alive that had nowhere else to go: Suyuan's own dreams. Suyuan had lost two daughters in China before she even arrived in America, and every hope she placed onto her surviving daughter carried the weight of that grief.</p>
+
+  <!-- CHAPTER 2 -->
+  <div class="section-marker fade-in">
+    <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16,4 C16,4 8,10 8,16 C8,22 12,24 16,28 C20,24 24,22 24,16 C24,10 16,4 16,4 Z" fill="none" stroke="#D4A843" stroke-width="1.5"/>
+      <circle cx="16" cy="16" r="3" fill="#C0292A"/>
+    </svg>
+  </div>
+
+  <h2 class="chapter-heading fade-in">My Mother's Silence</h2>
+
+  <p class="body-p fade-in">I think a lot about my own mother doing a version of this. But instead of forcing hours of piano lessons on me, it is the silence she keeps about her life before America that reminds me of Suyuan. She has friends back in China she hasn't spoken to in years — not because of falling out, but because maintaining those relationships required time and energy that went instead towards raising my brother and me in a foreign country.</p>
+
+  <p class="body-p fade-in">My mother didn't learn English because she wanted to, but because she had to. To communicate with her children's teachers. To communicate with the people of this foreign land. Every English word she learned was both a gain and a small surrender.</p>
+
+  <!-- PULL QUOTE - JING-MEI -->
+  <div class="pull-quote fade-in">
+    <p class="pull-quote-text">"For unlike my mother, I did not believe I could be anything I wanted to be. I could only be me."</p>
+    <p class="pull-quote-attr">Jing-mei Woo · The Joy Luck Club</p>
+  </div>
+
+  <p class="body-p fade-in">What Jing-mei names as limitation — only being herself — is actually what her mother's dream never made room for. Suyuan's hope was so total, so American in its belief that identity is something you build from scratch, that it left no space for a daughter who simply wanted to exist without becoming exceptional. Our parents believed in the Dream hard enough to give up nearly everything for it — and we may have inherited the life they built, but not the dream that built it.</p>
+
+  <!-- CHAPTER 3 -->
+  <div class="section-marker fade-in">
+    <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16,4 C16,4 8,10 8,16 C8,22 12,24 16,28 C20,24 24,22 24,16 C24,10 16,4 16,4 Z" fill="none" stroke="#D4A843" stroke-width="1.5"/>
+      <circle cx="16" cy="16" r="3" fill="#C0292A"/>
+    </svg>
+  </div>
+
+  <h2 class="chapter-heading fade-in">What the Dream Doesn't Tell You</h2>
+
+  <p class="body-p fade-in">My parents came to this country not speaking an ounce of English, not knowing anyone in this foreign land, and leaving countless loved ones behind in China. They essentially left their entire life behind because they believed the math would work out — that whatever they'd gain here would exceed what they had lost in choosing to leave. I also don't think they knew, standing at that departure gate thirteen years ago, that some of what they were leaving they'd never fully recover.</p>
+
+  <p class="body-p fade-in">Not the material things. But the ease of being entirely yourself in a place that already knows who you are.</p>
+
+  <p class="body-p fade-in">Tan ends the novel with Jing-mei traveling to China to meet the sisters her mother had lost prior to coming to America. Standing before them, she finally sees her mother's face reflected back. For the first time, she recognizes the distance between who her mother was and who she became — and that she had been unknowingly living that distance her entire life. It took traveling back to the country her mother fled to finally see her clearly. Which means the cost of the American Dream wasn't just what Suyuan left behind, but what Jing-mei could never access from inside it.</p>
+
+  <!-- dumplings illustrationss! -->
+  <div class="inset-art fade-in">
+    <svg viewBox="0 0 760 200" xmlns="http://www.w3.org/2000/svg">
+      <rect width="760" height="200" fill="#FDF9F3"/>
+      <!-- Steam -->
+      <path d="M260,80 Q255,60 260,40 Q265,20 260,5" fill="none" stroke="rgba(192,41,42,0.15)" stroke-width="2" stroke-linecap="round"/>
+      <path d="M310,75 Q305,55 310,35 Q315,15 310,0" fill="none" stroke="rgba(192,41,42,0.1)" stroke-width="2" stroke-linecap="round"/>
+      <path d="M360,80 Q355,60 360,40 Q365,20 360,5" fill="none" stroke="rgba(192,41,42,0.15)" stroke-width="2" stroke-linecap="round"/>
+      <path d="M410,75 Q405,55 410,35 Q415,15 410,0" fill="none" stroke="rgba(192,41,42,0.1)" stroke-width="2" stroke-linecap="round"/>
+      <path d="M460,80 Q455,60 460,40 Q465,20 460,5" fill="none" stroke="rgba(192,41,42,0.15)" stroke-width="2" stroke-linecap="round"/>
+      <!-- Bamboo steamer -->
+      <ellipse cx="380" cy="150" rx="160" ry="30" fill="none" stroke="#C0956B" stroke-width="3"/>
+      <ellipse cx="380" cy="148" rx="160" ry="28" fill="none" stroke="#C0956B" stroke-width="1" opacity="0.4"/>
+      <!-- Dumplings -->
+      <g transform="translate(220, 120)">
+        <ellipse cx="40" cy="15" rx="38" ry="18" fill="#FFF8EC" stroke="#8A7D6B" stroke-width="1.2"/>
+        <path d="M10,12 Q40,0 70,12" fill="none" stroke="#8A7D6B" stroke-width="1"/>
+        <path d="M18,10 Q40,4 62,10" fill="none" stroke="#C0956B" stroke-width="0.6" stroke-dasharray="3,3"/>
+      </g>
+      <g transform="translate(298, 112)">
+        <ellipse cx="40" cy="15" rx="38" ry="18" fill="#FFF8EC" stroke="#8A7D6B" stroke-width="1.2"/>
+        <path d="M10,12 Q40,0 70,12" fill="none" stroke="#8A7D6B" stroke-width="1"/>
+        <path d="M18,10 Q40,4 62,10" fill="none" stroke="#C0956B" stroke-width="0.6" stroke-dasharray="3,3"/>
+      </g>
+      <g transform="translate(376, 118)">
+        <ellipse cx="40" cy="15" rx="38" ry="18" fill="#FFF8EC" stroke="#8A7D6B" stroke-width="1.2"/>
+        <path d="M10,12 Q40,0 70,12" fill="none" stroke="#8A7D6B" stroke-width="1"/>
+        <path d="M18,10 Q40,4 62,10" fill="none" stroke="#C0956B" stroke-width="0.6" stroke-dasharray="3,3"/>
+      </g>
+      <g transform="translate(454, 114)">
+        <ellipse cx="40" cy="15" rx="38" ry="18" fill="#FFF8EC" stroke="#8A7D6B" stroke-width="1.2"/>
+        <path d="M10,12 Q40,0 70,12" fill="none" stroke="#8A7D6B" stroke-width="1"/>
+        <path d="M18,10 Q40,4 62,10" fill="none" stroke="#C0956B" stroke-width="0.6" stroke-dasharray="3,3"/>
+      </g>
+      <rect x="1" y="1" width="758" height="198" fill="none" stroke="rgba(212,168,67,0.3)" stroke-width="1"/>
+      <text x="100" y="148" font-family="Noto Serif SC, serif" font-size="13" fill="rgba(192,41,42,0.3)" font-weight="700">饺子</text>
+      <text x="606" y="148" font-family="Noto Serif SC, serif" font-size="13" fill="rgba(192,41,42,0.3)" font-weight="700">记忆</text>
+    </svg>
+    <p class="inset-caption">The dumplings taste the same — it's just that the memory of how to make them belongs to someone else</p>
+  </div>
+
+  <p class="body-p fade-in">My parents came for a better life and I believe them when they say they got one. But I've started to think the American Dream doesn't tell you what it will quietly take in exchange. It doesn't take money nor comfort, but the version of yourself that existed before. My mother still makes dumplings the way her mother taught her — with the same folds and fillings — but there is no one here who remembers learning it the same way she does.</p>
+
+  <p class="body-p fade-in">Each generation inherits the distance: between who my parents were and who America asked them to become, between who I am and who I might have been, between my brother and a homeland he has never known. I believe that we are all living inside that gap, just at different depths.</p>
+
+  <!-- CLOSING PULL QUOTE -->
+  <div class="pull-quote fade-in">
+    <p class="pull-quote-text">I am grateful for everything this country gave my family. But I am also still learning to grieve the things it asked them to leave at the door — things they never got back, and things I never got to know.</p>
+    <p class="pull-quote-attr">The Author</p>
+  </div>
+
+  <p class="body-p fade-in">And yet, the dumplings taste the same. It's just that the memory of how to make them belongs to someone else.</p>
+
+  <div class="wave-break fade-in">
+    <svg width="200" height="30" viewBox="0 0 200 30" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,15 Q25,0 50,15 Q75,30 100,15 Q125,0 150,15 Q175,30 200,15" fill="none" stroke="#C0292A" stroke-width="2"/>
+    </svg>
+  </div>
+
+</main>
+
+<footer class="article-footer">
+  <span class="footer-chinese">家</span>
+  <div class="footer-divider"></div>
+  <p class="footer-text"><em>家</em> (jiā) — home, family, a place I carry even when I am unable to return to it </p>
+  <div class="footer-divider"></div>
+  <p class="footer-text" style="font-style:normal; font-size:0.75rem; opacity:0.45; letter-spacing:0.08em;">OPINION · PERSONAL ESSAY · IMMIGRATION &amp; IDENTITY</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
