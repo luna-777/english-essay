@@ -241,20 +241,39 @@
   /* ───────── THESIS BLOCK ───────── */
   .thesis-block {
     margin: 56px 0;
-    padding: 40px 48px;
+    padding: 48px 56px;
     background: var(--pale-gold);
     border-top: 3px solid var(--ink);
     border-bottom: 3px solid var(--ink);
     text-align: center;
+    position: relative;
+  }
+
+  .thesis-block::before,
+  .thesis-block::after {
+    content: '◆';
+    display: block;
+    font-size: 0.6rem;
+    letter-spacing: 0.5em;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .thesis-block::after {
+    margin-bottom: 0;
+    margin-top: 20px;
   }
 
   .thesis-block-text {
-    font-family: 'Source Serif 4', serif;
-    font-size: 1.2rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
     font-style: italic;
     font-weight: 400;
-    line-height: 1.75;
+    line-height: 1.85;
     color: var(--ink);
+    letter-spacing: 0.01em;
+    max-width: 72ch;
+    margin: 0 auto;
   }
 
   /* ───────── PULL QUOTES ───────── */
@@ -645,7 +664,9 @@
   </div>
 
   <p class="body-p fade-in">My brother was born in San Francisco in 2015, two years after our arrival. He doesn’t have a “before”, for America is the only home he’s ever known. I have a before, or at least the shape of a before. Moving to America at age three, I existed in a strange in-between of being old enough that somewhere inside of me existed the faint memories of a different life yet I was young enough that I cannot clearly elucidate those memories. Meanwhile, although my parents know exactly what they left behind, they just tend to not talk about it. </p>
-    <p class="thesis-block-text">The American Dream does not advertise its true cost, and that in chasing it, immigrant families are forced to leave behind not just a place but a self, passing down through each generation an unbridgeable distance between who they are and who they might have been.</p>
+    <div class="thesis-block fade-in">
+      <p class="thesis-block-text">The American Dream does not advertise its true cost, and that in chasing it, immigrant families are forced to leave behind not just a place but a self, passing down through each generation an unbridgeable distance between who they are and who they might have been.</p>
+    </div>
   </div>
   
   <p class="body-p fade-in">Author Amy Tan understood this bargain because at its core, The Joy Luck Club is a book about the weight that is passed down from mother to daughter across the ocean of immigration—things that get lost in translation and the things that are lost on purpose. In a devastating moment in the novel, Jing-mei Woo sits across from her mother Suyuan’s oldest friend after Suyuan died, and she realizes she cannot even answer the simplest question of who her mother truly was. Jing-mei's inability to answer that question isn't solely due to grief, but rather, it reveals that Suyuan had been so consumed by the act of surviving and building a life in America that the person she was before never made it across the ocean with her. The woman her daughter faced across the dinner table was already a “translated” version that had been reshaped by a country that didn't know her original language, losses, or her original self. Through this, Tan demonstrates that sacrifice is not necessarily always material. In addition to just leaving China, Suyuan also left a version of herself that her own daughter never met. 
